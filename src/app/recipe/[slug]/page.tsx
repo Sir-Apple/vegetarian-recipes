@@ -1,6 +1,13 @@
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import Image from 'next/image';
+import { Metadata } from 'next';
+
+interface RecipePageProps {
+  params: {
+    slug: string;
+  };
+}
 
 const GET_RECIPE_BY_SLUG = gql`
   query GetRecipeBySlug($slug: String!) {
@@ -18,16 +25,16 @@ const GET_RECIPE_BY_SLUG = gql`
   }
 `;
 
-interface PageProps {
-  params: { slug: string };
+export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
+  return {
+    title: `Recipe | ${params.slug}`,
+  };
 }
 
-export default async function Page({ params }: PageProps) {
-  const { slug } = params;
-
+export default async function RecipePage({ params }: RecipePageProps) {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
-    variables: { slug },
+    variables: { slug: params.slug },
   });
 
   const recipe = data.recipe;
@@ -45,23 +52,29 @@ export default async function Page({ params }: PageProps) {
         className="w-full h-60 object-cover rounded mb-6"
         priority
       />
+
       <h2 className="text-xl font-semibold mt-4 mb-2">Ingredients</h2>
       <ul className="list-disc ml-6 space-y-1">
         {recipe.ingredients.split('\n').map((item: string, index: number) => (
           <li key={index}>{item}</li>
         ))}
       </ul>
+
       <h2 className="text-xl font-semibold mt-6 mb-2">Instructions</h2>
       <div
         className="prose prose-sm sm:prose lg:prose-lg mt-2"
         dangerouslySetInnerHTML={{ __html: recipe.instructions.html }}
       />
+
       {recipe.tags?.length > 0 && (
         <div className="mt-6">
           <h3 className="text-sm uppercase text-gray-500 mb-1">Tags:</h3>
           <div className="flex flex-wrap gap-2">
             {recipe.tags.split('\n').map((tag: string, index: number) => (
-              <span key={index} className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">
+              <span
+                key={index}
+                className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm"
+              >
                 #{tag.trim()}
               </span>
             ))}
