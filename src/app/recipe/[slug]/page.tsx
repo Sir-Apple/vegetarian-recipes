@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import Image from 'next/image';
+import { Metadata } from 'next';
 
 const GET_RECIPE_BY_SLUG = gql`
   query GetRecipeBySlug($slug: String!) {
@@ -19,9 +19,7 @@ const GET_RECIPE_BY_SLUG = gql`
   }
 `;
 
-export async function generateMetadata(
-  { params }: { params: { slug: string } }
-): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
     variables: { slug: params.slug },
@@ -35,9 +33,7 @@ export async function generateMetadata(
   };
 }
 
-export default async function RecipePage(
-  { params }: { params: { slug: string } }
-) {
+export default async function Page({ params }: { params: { slug: string } }) {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
     variables: { slug: params.slug },
