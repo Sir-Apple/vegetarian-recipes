@@ -19,13 +19,9 @@ const GET_RECIPE_BY_SLUG = gql`
   }
 `;
 
-type PageProps = {
-  params: {
-    slug: string;
-  };
-};
-
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { slug: string } }
+): Promise<Metadata> {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
     variables: { slug: params.slug },
@@ -39,7 +35,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function RecipePage({ params }: PageProps) {
+export default async function RecipePage(
+  { params }: { params: { slug: string } }
+) {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
     variables: { slug: params.slug },
