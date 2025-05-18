@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import Image from 'next/image';
@@ -18,7 +19,25 @@ const GET_RECIPE_BY_SLUG = gql`
   }
 `;
 
-export default async function RecipePage({ params }: { params: { slug: string } }) {
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { data } = await client.query({
+    query: GET_RECIPE_BY_SLUG,
+    variables: { slug: params.slug },
+  });
+
+  const recipe = data.recipe;
+
+  return {
+    title: `${recipe.title} | Recipe App`,
+    description: `Instructions and ingredients for making ${recipe.title}.`,
+  };
+}
+
+export default async function RecipePage({ params }: Props) {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
     variables: { slug: params.slug },
@@ -30,15 +49,15 @@ export default async function RecipePage({ params }: { params: { slug: string } 
 
   return (
     <div className="max-w-3xl mx-auto p-6">
-        <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
-        <Image
-            src={recipe.image?.url || '/images/placeholder.jpg'}
-            alt={recipe.title}
-            width={800}
-            height={360}
-            className="w-full h-60 object-cover rounded mb-6"
-            priority
-        />
+      <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
+      <Image
+        src={recipe.image?.url || '/images/placeholder.jpg'}
+        alt={recipe.title}
+        width={800}
+        height={360}
+        className="w-full h-60 object-cover rounded mb-6"
+        priority
+      />
 
       <h2 className="text-xl font-semibold mt-4 mb-2">Ingredients</h2>
       <ul className="list-disc ml-6 space-y-1">
