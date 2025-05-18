@@ -1,13 +1,6 @@
 import { gql } from '@apollo/client';
 import client from '@/lib/apolloClient';
 import Image from 'next/image';
-import { Metadata } from 'next';
-
-interface RecipePageProps {
-  params: {
-    slug: string;
-  };
-}
 
 const GET_RECIPE_BY_SLUG = gql`
   query GetRecipeBySlug($slug: String!) {
@@ -25,20 +18,15 @@ const GET_RECIPE_BY_SLUG = gql`
   }
 `;
 
-export async function generateMetadata({ params }: RecipePageProps): Promise<Metadata> {
-  return {
-    title: `Recipe | ${params.slug}`,
-  };
-}
+export default async function Page({ params }: { params: { slug: string } }) {
+  const { slug } = params;
 
-export default async function RecipePage({ params }: RecipePageProps) {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
-    variables: { slug: params.slug },
+    variables: { slug },
   });
 
   const recipe = data.recipe;
-
   if (!recipe) return <p>Recipe not found</p>;
 
   return (
