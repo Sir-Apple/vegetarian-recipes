@@ -19,13 +19,7 @@ const GET_RECIPE_BY_SLUG = gql`
   }
 `;
 
-export interface PageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function Page({ params }: PageProps) {
+export default async function Page({ params }) {
   const { data } = await client.query({
     query: GET_RECIPE_BY_SLUG,
     variables: { slug: params.slug },
@@ -47,7 +41,7 @@ export default async function Page({ params }: PageProps) {
       />
       <h2 className="text-xl font-semibold mt-4 mb-2">Ingredients</h2>
       <ul className="list-disc ml-6 space-y-1">
-        {recipe.ingredients.split('\n').map((item: string, index: number) => (
+        {recipe.ingredients.split('\n').map((item, index) => (
           <li key={index}>{item}</li>
         ))}
       </ul>
@@ -60,7 +54,7 @@ export default async function Page({ params }: PageProps) {
         <div className="mt-6">
           <h3 className="text-sm uppercase text-gray-500 mb-1">Tags:</h3>
           <div className="flex flex-wrap gap-2">
-            {recipe.tags.split('\n').map((tag: string, index: number) => (
+            {recipe.tags.split('\n').map((tag, index) => (
               <span
                 key={index}
                 className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm"
