@@ -1,3 +1,26 @@
+# My vegetarian recipe
+Technology used:
+- NextJS
+- TypeScript
+- TailwindCSS
+
+## Description
+My Vegetarian Recipes is a modern web application that helps users discover, search, and filter delicious vegetarian recipes. Built with Next.js and GraphQL, the site offers a clean user interface with fast performance and dynamic content powered by Hygraph CMS. Users can:
+
+    Browse a growing collection of vegetarian dishes
+
+    Filter recipes by tags (e.g. pasta, vegan, Asian, quick meals)
+
+    View rich recipe pages with ingredients, step-by-step instructions, and images
+
+    Enjoy a responsive design optimised for both desktop and mobile devices
+
+Whether you're new to plant-based eating or a seasoned vegetarian, this site offers an easy, enjoyable way to explore wholesome meals.
+
+## Testing
+View web live here: https://herbivore-delight.netlify.app/
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
