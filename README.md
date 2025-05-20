@@ -3,6 +3,7 @@ Technology used:
 - NextJS
 - TypeScript
 - TailwindCSS
+- GraphQL (Hygraph)
 
 ## Description
 My Vegetarian Recipes is a modern web application that helps users discover, search, and filter delicious vegetarian recipes. Built with Next.js and GraphQL, the site offers a clean user interface with fast performance and dynamic content powered by Hygraph CMS. Users can:
